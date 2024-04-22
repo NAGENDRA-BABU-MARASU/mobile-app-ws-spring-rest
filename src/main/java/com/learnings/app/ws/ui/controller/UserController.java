@@ -3,12 +3,12 @@ package com.learnings.app.ws.ui.controller;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("users")
+@RequestMapping("/users")
 public class UserController {
 
-    @GetMapping
-    public String getUser(){
-        return "getUser was called";
+    @GetMapping(path = "/{userId}")
+    public String getUser(@PathVariable String userId){
+        return "getUser was called with userId=" + userId;
     }
 
     @PostMapping
