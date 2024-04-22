@@ -1,6 +1,8 @@
 package com.learnings.app.ws.ui.controller;
 
+import com.learnings.app.ws.ui.model.request.UserDetailsRequestModel;
 import com.learnings.app.ws.ui.model.response.UserRest;
+import org.apache.catalina.User;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -31,9 +33,19 @@ public class UserController {
         return "getUsers was called with page=" + page + " & limit=" + limit + " & sort=" + sort;
     }
 
-    @PostMapping
-    public String createUser() {
-        return "createUser was called";
+    @PostMapping(consumes = {
+            MediaType.APPLICATION_JSON_VALUE,
+            MediaType.APPLICATION_XML_VALUE
+    }, produces = {
+            MediaType.APPLICATION_JSON_VALUE,
+            MediaType.APPLICATION_XML_VALUE
+    })
+    public ResponseEntity<UserRest>  createUser(@RequestBody UserDetailsRequestModel userDetails) {
+        UserRest newUser = new UserRest();
+        newUser.setEmail(userDetails.getEmail());
+        newUser.setFirstName(userDetails.getFirstName());
+        newUser.setLastName(userDetails.getLastName());
+        return new ResponseEntity<>(newUser, HttpStatus.OK);
     }
 
     @PutMapping
