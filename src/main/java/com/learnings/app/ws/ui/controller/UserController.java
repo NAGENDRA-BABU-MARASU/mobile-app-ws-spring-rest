@@ -1,5 +1,6 @@
 package com.learnings.app.ws.ui.controller;
 
+import com.learnings.app.ws.ui.model.response.UserRest;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -7,8 +8,12 @@ import org.springframework.web.bind.annotation.*;
 public class UserController {
 
     @GetMapping(path = "/{userId}")
-    public String getUser(@PathVariable String userId) {
-        return "getUser was called with userId=" + userId;
+    public UserRest getUser(@PathVariable String userId) {
+        UserRest returnValue = new UserRest();
+        returnValue.setEmail("Test@email.com");
+        returnValue.setFirstName("test_firstname");
+        returnValue.setLastName("test_lastname");
+        return returnValue;
     }
 
     @GetMapping()
