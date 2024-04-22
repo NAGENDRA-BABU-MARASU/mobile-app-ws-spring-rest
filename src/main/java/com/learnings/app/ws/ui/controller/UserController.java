@@ -1,13 +1,19 @@
 package com.learnings.app.ws.ui.controller;
 
 import com.learnings.app.ws.ui.model.response.UserRest;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
+
+import java.awt.*;
 
 @RestController
 @RequestMapping("/users")
 public class UserController {
 
-    @GetMapping(path = "/{userId}")
+    @GetMapping(path = "/{userId}", produces = {
+            MediaType.APPLICATION_JSON_VALUE,
+            MediaType.APPLICATION_XML_VALUE
+    })
     public UserRest getUser(@PathVariable String userId) {
         UserRest returnValue = new UserRest();
         returnValue.setEmail("Test@email.com");
