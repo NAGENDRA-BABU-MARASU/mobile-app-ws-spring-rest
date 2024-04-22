@@ -2,13 +2,11 @@ package com.learnings.app.ws.ui.controller;
 
 import com.learnings.app.ws.ui.model.request.UserDetailsRequestModel;
 import com.learnings.app.ws.ui.model.response.UserRest;
-import org.apache.catalina.User;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.awt.*;
 
 @RestController
 @RequestMapping("/users")
@@ -40,7 +38,7 @@ public class UserController {
             MediaType.APPLICATION_JSON_VALUE,
             MediaType.APPLICATION_XML_VALUE
     })
-    public ResponseEntity<UserRest>  createUser(@RequestBody UserDetailsRequestModel userDetails) {
+    public ResponseEntity<UserRest>  createUser(@Valid @RequestBody UserDetailsRequestModel userDetails) {
         UserRest newUser = new UserRest();
         newUser.setEmail(userDetails.getEmail());
         newUser.setFirstName(userDetails.getFirstName());
