@@ -1,9 +1,11 @@
 package com.learnings.app.ws.ui.controller;
 
+import com.learnings.app.ws.exceptions.UserServiceException;
 import com.learnings.app.ws.ui.model.request.UpdateUserDetailsRequestModel;
 import com.learnings.app.ws.ui.model.request.UserDetailsRequestModel;
 import com.learnings.app.ws.ui.model.response.UserRest;
 import jakarta.validation.Valid;
+import org.apache.catalina.User;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -21,8 +23,9 @@ public class UserController {
 
     @GetMapping(path = "/{userId}", produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
     public ResponseEntity<UserRest> getUser(@PathVariable String userId) {
-        String firstName = null;
-        int firstNameLength = firstName.length();
+        if(true){
+            throw new UserServiceException("A user service exception is thrown");
+        }
         if (users.containsKey(userId)) {
             return new ResponseEntity<UserRest>(users.get(userId), HttpStatus.OK);
         } else {
