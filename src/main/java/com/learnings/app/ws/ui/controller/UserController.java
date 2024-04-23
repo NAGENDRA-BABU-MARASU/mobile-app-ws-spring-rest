@@ -19,11 +19,10 @@ public class UserController {
 
     Map<String, UserRest> users;
 
-    @GetMapping(path = "/{userId}", produces = {
-            MediaType.APPLICATION_JSON_VALUE,
-            MediaType.APPLICATION_XML_VALUE
-    })
+    @GetMapping(path = "/{userId}", produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
     public ResponseEntity<UserRest> getUser(@PathVariable String userId) {
+        String firstName = null;
+        int firstNameLength = firstName.length();
         if (users.containsKey(userId)) {
             return new ResponseEntity<UserRest>(users.get(userId), HttpStatus.OK);
         } else {
@@ -32,19 +31,11 @@ public class UserController {
     }
 
     @GetMapping()
-    public String getUsers(@RequestParam(value = "page", defaultValue = "1") int page,
-                           @RequestParam(value = "limit", defaultValue = "50") int limit,
-                           @RequestParam(value = "sort", defaultValue = "desc", required = false) String sort) {
+    public String getUsers(@RequestParam(value = "page", defaultValue = "1") int page, @RequestParam(value = "limit", defaultValue = "50") int limit, @RequestParam(value = "sort", defaultValue = "desc", required = false) String sort) {
         return "getUsers was called with page=" + page + " & limit=" + limit + " & sort=" + sort;
     }
 
-    @PostMapping(consumes = {
-            MediaType.APPLICATION_JSON_VALUE,
-            MediaType.APPLICATION_XML_VALUE
-    }, produces = {
-            MediaType.APPLICATION_JSON_VALUE,
-            MediaType.APPLICATION_XML_VALUE
-    })
+    @PostMapping(consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
     public ResponseEntity<UserRest> createUser(@Valid @RequestBody UserDetailsRequestModel userDetails) {
         UserRest newUser = new UserRest();
         newUser.setEmail(userDetails.getEmail());
@@ -60,13 +51,7 @@ public class UserController {
         return new ResponseEntity<>(newUser, HttpStatus.OK);
     }
 
-    @PutMapping(consumes = {
-            MediaType.APPLICATION_JSON_VALUE,
-            MediaType.APPLICATION_XML_VALUE
-    }, produces = {
-            MediaType.APPLICATION_JSON_VALUE,
-            MediaType.APPLICATION_XML_VALUE
-    }, path = "/{userId}")
+    @PutMapping(consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE}, path = "/{userId}")
     public UserRest updateUser(@PathVariable String userId, @Valid @RequestBody UpdateUserDetailsRequestModel userDetails) {
         UserRest storedUserDetails = users.get(userId);
         storedUserDetails.setFirstName(userDetails.getFirstName());
