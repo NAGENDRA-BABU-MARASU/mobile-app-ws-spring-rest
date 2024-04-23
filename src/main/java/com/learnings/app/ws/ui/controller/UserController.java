@@ -1,5 +1,6 @@
 package com.learnings.app.ws.ui.controller;
 
+import com.learnings.app.ws.ui.model.request.UpdateUserDetailsRequestModel;
 import com.learnings.app.ws.ui.model.request.UserDetailsRequestModel;
 import com.learnings.app.ws.ui.model.response.UserRest;
 import jakarta.validation.Valid;
@@ -23,7 +24,7 @@ public class UserController {
             MediaType.APPLICATION_XML_VALUE
     })
     public ResponseEntity<UserRest> getUser(@PathVariable String userId) {
-        if(users.containsKey(userId)){
+        if (users.containsKey(userId)) {
             return new ResponseEntity<UserRest>(users.get(userId), HttpStatus.OK);
         } else {
             return new ResponseEntity<UserRest>(HttpStatus.NO_CONTENT);
@@ -44,7 +45,7 @@ public class UserController {
             MediaType.APPLICATION_JSON_VALUE,
             MediaType.APPLICATION_XML_VALUE
     })
-    public ResponseEntity<UserRest>  createUser(@Valid @RequestBody UserDetailsRequestModel userDetails) {
+    public ResponseEntity<UserRest> createUser(@Valid @RequestBody UserDetailsRequestModel userDetails) {
         UserRest newUser = new UserRest();
         newUser.setEmail(userDetails.getEmail());
         newUser.setFirstName(userDetails.getFirstName());
@@ -52,18 +53,28 @@ public class UserController {
         String userId = UUID.randomUUID().toString();
         newUser.setUserId(userId);
 
-        if(users == null) {
+        if (users == null) {
             users = new HashMap<>();
         }
         users.put(userId, newUser);
-
-
         return new ResponseEntity<>(newUser, HttpStatus.OK);
     }
 
-    @PutMapping
-    public String updateUser() {
-        return "updateUser was called";
+    @PutMapping(consumes = {
+            MediaType.APPLICATION_JSON_VALUE,
+            MediaType.APPLICATION_XML_VALUE
+    }, produces = {
+            MediaType.APPLICATION_JSON_VALUE,
+            MediaType.APPLICATION_XML_VALUE
+    }, path = "/{userId}")
+    public UserRest updateUser(@PathVariable String userId, @Valid @RequestBody UpdateUserDetailsRequestModel userDetails) {
+        UserRest storedUserDetails = users.get(userId);
+        storedUserDetails.setFirstName(userDetails.getFirstName());
+        storedUserDetails.setLastName(userDetails.getLastName());
+
+        users.put(userId, storedUserDetails);
+
+        return storedUserDetails;
     }
 
     @DeleteMapping
